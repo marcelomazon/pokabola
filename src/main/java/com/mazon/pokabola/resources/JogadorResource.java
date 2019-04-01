@@ -3,6 +3,7 @@ package com.mazon.pokabola.resources;
 import com.mazon.pokabola.domain.Jogador;
 import com.mazon.pokabola.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -36,6 +37,11 @@ public class JogadorResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
         // created retorna o código 201 quando um novo recurso é gerado
+    }
+    @PutMapping
+    public ResponseEntity<Jogador> update(@RequestBody Jogador jogador) {
+        jogador = service.update(jogador);
+        return ResponseEntity.ok().body(jogador);
     }
 
 }

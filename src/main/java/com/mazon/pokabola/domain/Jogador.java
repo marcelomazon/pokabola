@@ -1,13 +1,15 @@
 package com.mazon.pokabola.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class Jogador {
+@Table(name = "jogador", uniqueConstraints = {@UniqueConstraint(columnNames={"email"}, name="uk_email_jogador")})
+public class Jogador implements Serializable {
+    public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,17 +22,22 @@ public class Jogador {
     private String nome;
 
     @Column(name = "nr_camisa", nullable = false, length = 3)
-    @NotBlank(message = "O número da camisa do jogador é obrigatório")
-    @Size(min=0, max = 3)
+    @NotNull(message = "O número da camisa é obrigatório")
+    @Digits(message="O número da camisa é inválido.", integer=3, fraction = 0)
+    @Min(value = 1, message = "O número da camisa deve ser maior que zero")
     private Integer numCamisa;
 
     @Column(name = "email", length = 150)
     @Size(max = 100, message = "O e-mail pode ter até 150 caracteres")
+    @Email(message = "O e-mail é inválido")
     private String email;
 
-    @Column(name = "media", length = 2, precision = 2)
-    @Size(max = 3, message = "A média do jogador pode ser de até 2 dígitos e 2 decimais")
+    @Column(name = "media", precision = 4, scale = 2, columnDefinition="DECIMAL(4,2)")
+    @Digits(message="A média é inválida.", integer=2, fraction = 2)
     private Float media;
+
+    @Column(name = "dt_cadastro")
+    private LocalDateTime dataCadastro;
 
     public Jogador(){}
 
@@ -82,6 +89,14 @@ public class Jogador {
         this.media = media;
     }
 
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,6 +116,9 @@ public class Jogador {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", numCamisa=" + numCamisa +
+                ", email='" + email + '\'' +
+                ", media=" + media +
+                ", dataCadastro=" + dataCadastro +
                 '}';
     }
 }
