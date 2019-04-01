@@ -38,8 +38,8 @@ public class JogadorResource {
         return ResponseEntity.created(uri).build();
         // created retorna o código 201 quando um novo recurso é gerado
     }
-    @PutMapping
-    public ResponseEntity<Jogador> update(@RequestBody Jogador jogador) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Jogador> update(@PathVariable(value = "id") Long id, @RequestBody Jogador jogador) {
         jogador = service.update(jogador);
         return ResponseEntity.ok().body(jogador);
     }

@@ -38,15 +38,21 @@ public class TimeResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping
-    public ResponseEntity<Time> update(@RequestBody Time time) {
-        time = service.update(time);
+    @PutMapping("/{id}")
+    public ResponseEntity<Time> update(@PathVariable(value = "id") Long id, @RequestBody Time time) {
+        time = service.update(id, time);
         return ResponseEntity.ok().body(time);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Time> delete(@RequestBody Time time) {
-        service.delete(time.getId());
+    @PatchMapping("/{id}")
+    public ResponseEntity<Time> patch(@PathVariable(value = "id") Long id, @RequestBody Time time) {
+        time = service.patch(id, time);
+        return ResponseEntity.ok().body(time);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Time> delete(@PathVariable(value = "id") Long id) {
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 

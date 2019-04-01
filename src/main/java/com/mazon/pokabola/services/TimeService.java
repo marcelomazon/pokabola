@@ -1,6 +1,5 @@
 package com.mazon.pokabola.services;
 
-import com.mazon.pokabola.domain.Jogo;
 import com.mazon.pokabola.domain.Time;
 import com.mazon.pokabola.repository.JogoRepository;
 import com.mazon.pokabola.repository.TimeRepository;
@@ -9,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Service
 public class TimeService {
@@ -38,27 +38,28 @@ public class TimeService {
     public void delete(Long id){
         Time time = findById(id);
 
-        List<Jogo> jogoA = new ArrayList<>();
-        List<Jogo> jogoB = new ArrayList<>();
-
-        jogoA = jogoRepository.findByTime1(time.getId());
-        jogoB = jogoRepository.findByTime2(time.getId());
-
-        if (jogoA.size() > 0 || jogoB.size() > 0) {
+        if (jogoRepository.qtdJogosByTime(time) > 0L) {
             throw new RuntimeException("Impossível excluir time");
         }
 
         timeRepository.delete(time);
     }
 
-    public Time update(Time time){
-        Time newTime = findById(time.getId());
+    public Time update(Long id, Time time){
+        findById(id);
+        return timeRepository.save(time);
+    }
+
+    public Time patch(Long id, Time time){
+        Time newTime = findById(id);
         updateTime(newTime,time);
         return timeRepository.save(newTime);
     }
 
     private void updateTime(Time newTime, Time time) {
-        newTime.setNome(time.getNome());
+        if(nonNull(time.getNome())) {
+            newTime.setNome(time.getNome());
+        }
     }
 
 }
