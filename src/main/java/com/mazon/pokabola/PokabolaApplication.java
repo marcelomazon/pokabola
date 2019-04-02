@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 @SpringBootApplication
-//@EnableWebMvc
 @EntityScan(basePackageClasses = {PokabolaApplication.class, Jsr310JpaConverters.class})
 public class PokabolaApplication {
 

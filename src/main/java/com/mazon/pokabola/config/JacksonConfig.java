@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
@@ -20,11 +21,7 @@ public class JacksonConfig {
             public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
                 jacksonObjectMapperBuilder.featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
                 jacksonObjectMapperBuilder.modules(new Hibernate5Module());
-
-                //https://reflectoring.io/configuring-localdate-serialization-spring-boot/
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.registerModule(new JavaTimeModule());
-                mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                jacksonObjectMapperBuilder.modules(new JavaTimeModule()); //formatação json localdatetime
             }
         };
     }

@@ -3,6 +3,7 @@ package com.mazon.pokabola.resources;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.mazon.pokabola.domain.Jogador;
+import com.mazon.pokabola.domain.Time;
 import com.mazon.pokabola.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -40,10 +41,17 @@ public class JogadorResource {
         return ResponseEntity.created(uri).build();
         // created retorna o código 201 quando um novo recurso é gerado
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Jogador> update(@PathVariable(value = "id") Long id, @RequestBody Jogador jogador) {
         jogador = service.update(jogador);
         return ResponseEntity.ok().body(jogador);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Time> delete(@PathVariable(value = "id") Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

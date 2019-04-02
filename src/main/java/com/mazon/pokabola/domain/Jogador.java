@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "jogador", uniqueConstraints = {@UniqueConstraint(columnNames={"email"}, name="uk_email_jogador")})
 public class Jogador implements Serializable {
-    public static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

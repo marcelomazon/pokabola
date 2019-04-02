@@ -32,31 +32,23 @@ public class JogoService {
 
     @Transactional(propagation = REQUIRED)
     public Jogo findById(Long id) {
-
-        Jogo jogo = jogoRepository
+        return jogoRepository
                 .findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Jogo não encontrado ("+id+")"));
-
-        //System.out.println(jogo.getTime1().toString());
-        //System.out.println(jogo.getTime2().toString());
-        //jogo.setTime1(timeRepository.getOne(jogo.getTime1().getId()));
-        //jogo.setTime2(timeRepository.getOne(jogo.getTime2().getId()));
-
-        return jogo;
+                .orElseThrow(() -> new ObjectNotFoundException("Jogo não encontrado (" + id + ")"));
     }
 
     public Jogo insert(Jogo jogo) {
         return jogoRepository.save(jogo);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         Jogo jogo = findById(id);
         jogoRepository.delete(jogo);
     }
 
-    public Jogo update(Jogo jogo){
+    public Jogo update(Jogo jogo) {
         Jogo newJogo = findById(jogo.getId());
-        updateJogo(newJogo,jogo);
+        updateJogo(newJogo, jogo);
         return jogoRepository.save(newJogo);
     }
 

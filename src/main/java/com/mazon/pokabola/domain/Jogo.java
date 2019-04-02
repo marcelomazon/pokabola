@@ -1,5 +1,7 @@
 package com.mazon.pokabola.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "jogo")
 public class Jogo implements Serializable {
-    public static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +26,10 @@ public class Jogo implements Serializable {
 
     @ManyToOne//(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "time1_id", nullable = false)
-    @JsonManagedReference
     private Time time1;
 
     @ManyToOne//(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "time2_id", nullable = false)
-    @JsonManagedReference
     private Time time2;
 
     @Column(name = "local",length = 50)
