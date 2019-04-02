@@ -1,5 +1,7 @@
 package com.mazon.pokabola.resources;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.mazon.pokabola.domain.Jogador;
 import com.mazon.pokabola.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;

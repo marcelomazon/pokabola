@@ -38,7 +38,7 @@ public class TimeService {
     public void delete(Long id){
         Time time = findById(id);
 
-        if (jogoRepository.qtdJogosByTime(time) > 0L) {
+        if (jogoRepository.timeTemJogos(time)) {
             throw new RuntimeException("Impossível excluir time");
         }
 

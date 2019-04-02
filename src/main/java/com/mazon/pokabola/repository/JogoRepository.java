@@ -10,6 +10,11 @@ import org.springframework.stereotype.Repository;
 public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
     //@Query(value = "SELECT CASE WHEN (SELECT j.id FROM jogo j WHERE j.time1_id = ?1 OR j.time2_id = ?1) = 1 THEN true ELSE false END", nativeQuery = true)
-    @Query("SELECT count(j.id) FROM Jogo j WHERE j.time1 = ?1 OR j.time2 = ?1")
-    public Long qtdJogosByTime(Time time);
+    //@Query("SELECT count(j.id) FROM Jogo j WHERE j.time1 = ?1 OR j.time2 = ?1")
+    //public Long qtdJogosByTime(Time time);
+    @Query("SELECT CASE WHEN COUNT(j.id) > 0 THEN true ELSE false END FROM Jogo j WHERE j.time1 = ?1 OR j.time2 = ?1")
+    public Boolean timeTemJogos(Time time);
+
+    public Boolean existsByTime1(Time time);
+    public Boolean existsByTime2(Time time);
 }

@@ -1,6 +1,8 @@
 package com.mazon.pokabola.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -18,8 +20,12 @@ public class JacksonConfig {
             public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
                 jacksonObjectMapperBuilder.featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
                 jacksonObjectMapperBuilder.modules(new Hibernate5Module());
-            }
 
+                //https://reflectoring.io/configuring-localdate-serialization-spring-boot/
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.registerModule(new JavaTimeModule());
+                mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            }
         };
     }
 }
